@@ -7,7 +7,7 @@
  * @package /modules/marketplace
  * @version 0.1
  */
-class marketplaceItem extends Object
+class marketplaceItem extends BaseObject
 {
 	/**
 	 * Document number
