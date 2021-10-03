@@ -53,7 +53,7 @@ class marketplace extends ModuleObject
 				$oModuleController->updateSite($site_args);
 			}
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -123,13 +123,13 @@ class marketplace extends ModuleObject
 		}
 
 
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 
 	function moduleUninstall()
 	{
 		$output = executeQueryArray("marketplace.getAllMarketplace");
-		if(!$output->data) return new Object();
+		if(!$output->data) return new BaseObject();
 		@set_time_limit(0);
 
 		$oModuleController = getController('module');
@@ -139,6 +139,6 @@ class marketplace extends ModuleObject
 			$oModuleController->deleteModule($marketplace->module_srl);
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 }

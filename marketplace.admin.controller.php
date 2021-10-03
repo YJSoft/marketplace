@@ -137,11 +137,11 @@ class marketplaceAdminController extends marketplace {
 		$module_srl = Context::get('module_srl');
 		$eid = Context::get('eid');
 
-		if(!$module_srl || !$eid) return new Object(-1,'msg_invalid_request');
+		if(!$module_srl || !$eid) return new BaseObject(-1,'msg_invalid_request');
 		
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$module_info->module_srl) return new Object(-1,'msg_invalid_request');
+		if(!$module_info->module_srl) return new BaseObject(-1,'msg_invalid_request');
 
 		$oMarketplaceController = getController('marketplace');
 		$oMarketplaceController->deleteItemCondition($module_srl, $eid);
@@ -153,20 +153,20 @@ class marketplaceAdminController extends marketplace {
 		$module_srl = Context::get('module_srl');
 		$eid = Context::get('eid');
 
-		if(!$module_srl || !$eid || !$type) return new Object(-1,'msg_invalid_request');
+		if(!$module_srl || !$eid || !$type) return new BaseObject(-1,'msg_invalid_request');
 
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$module_info->module_srl) return new Object(-1,'msg_invalid_request');
+		if(!$module_info->module_srl) return new BaseObject(-1,'msg_invalid_request');
 
 		$oMarketplaceModel = getModel('marketplace');
 		$output = $oMarketplaceModel->getSettingCondition($module_srl, $eid);
-		if(!$output->data) return new Object(-1,'msg_invalid_request');
+		if(!$output->data) return new BaseObject(-1,'msg_invalid_request');
 		$idx = $output->data->idx;
 
 		if($type == 'up') $new_idx = $idx-1;
 		else $new_idx = $idx+1;
-		if($new_idx<1) return new Object(-1,'msg_invalid_request');
+		if($new_idx<1) return new BaseObject(-1,'msg_invalid_request');
 
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
@@ -174,7 +174,7 @@ class marketplaceAdminController extends marketplace {
 		
 		$output = executeQuery('marketplace.getSettingConditionByIdx', $args);
 		if (!$output->toBool()) return $output;
-		if (!$output->data) return new Object(-1, 'msg_invalid_request');
+		if (!$output->data) return new BaseObject(-1, 'msg_invalid_request');
 		unset($args);
 		
 		$args = new stdClass();
@@ -263,7 +263,7 @@ class marketplaceAdminController extends marketplace {
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if($module_info->mid != $mid)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$module_info->hide_category = Context::get('hide_category') == 'Y' ? 'Y' : 'N';

@@ -65,7 +65,7 @@ class marketplaceModel extends module
 	{
 		$logged_info = Context::get('logged_info');		
 		if(!$member_srl) $member_srl = $logged_info->member_srl;
-		if(!$member_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$member_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		$module_info = Context::get('module_info');
 		$args->module_srl = $module_info->module_srl;
@@ -161,7 +161,7 @@ class marketplaceModel extends module
 	{
 		$module_info = Context::get('module_info');
 		if(!$args->module_srl) $args->module_srl = $module_info->module_srl;
-		if(!$args->module_srl || !$args->member_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$args->module_srl || !$args->member_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		return executeQueryArray('marketplace.getSellerItemComments', $args);
 	}
@@ -201,7 +201,7 @@ class marketplaceModel extends module
 	 **/
 	function getAdvertiseList($args) 
 	{
-		if(!$args->module_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$args->module_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		$output = executeQueryArray('marketplace.getAdvertiseList', $args);
 
@@ -285,7 +285,7 @@ class marketplaceModel extends module
 	 **/
 	function getAllKeywords($module_srl)
 	{
-		if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$module_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
@@ -332,7 +332,7 @@ class marketplaceModel extends module
 	 **/
 	function getKeywordByMemberSrl($keyword, $member_srl, $module_srl = false)
 	{
-		if(!$keyword) return new Object(-1, 'msg_invalid_request');
+		if(!$keyword) return new BaseObject(-1, 'msg_invalid_request');
 
 		$args = new stdClass();
 		$args->module_srl = ($module_srl) ? $module_srl : null;
@@ -495,7 +495,7 @@ class marketplaceModel extends module
 	function getWishlistItem($args)
 	{
 		if(!$args->document_srl || !$args->member_srl) 
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 
 		return executeQuery('marketplace.getWishlistItem', $args);
 	}

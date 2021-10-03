@@ -73,12 +73,12 @@ class marketplaceMobile extends marketplaceView
 		$oDocumentModel =& getModel('document');
 		if(!$document_srl)
 		{
-			return new Object(-1, "msg_invalid_request");
+			return new BaseObject(-1, "msg_invalid_request");
 		}
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
-			return new Object(-1, "msg_invalid_request");
+			return new BaseObject(-1, "msg_invalid_request");
 		}
 		Context::set('oDocument', $oDocument);
 		$oTemplate = TemplateHandler::getInstance();

@@ -23,12 +23,12 @@ class marketplaceController extends marketplace
 		// check grant
 		if($this->module_info->module != "marketplace")
 		{
-			return new Object(-1, "msg_invalid_request");
+			return new BaseObject(-1, "msg_invalid_request");
 		}
 
 		if(!$this->grant->write_document)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		
 		// 업로드 전 섬네일 파일 체크
@@ -39,10 +39,10 @@ class marketplaceController extends marketplace
 		{
 			// 이미지 형식 체크
 			if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$file['name'])) {
-				return new Object(-1, 'msg_thumbnail_image_file_only');
+				return new BaseObject(-1, 'msg_thumbnail_image_file_only');
 			}	
 			// 파일 사이즈 체크
-			if($allowed_filesize < filesize($file['tmp_name'])) return new Object(-1, 'msg_thumbnail_exceeds_limit_size');
+			if($allowed_filesize < filesize($file['tmp_name'])) return new BaseObject(-1, 'msg_thumbnail_exceeds_limit_size');
 		}
 
 		// Insert document and item
@@ -68,12 +68,12 @@ class marketplaceController extends marketplace
 		// check grant
 		if($this->module_info->module != "marketplace")
 		{
-			return new Object(-1, "msg_invalid_request");
+			return new BaseObject(-1, "msg_invalid_request");
 		}
 
 		if(!$this->grant->manager)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		// Insert document and item
@@ -143,7 +143,7 @@ class marketplaceController extends marketplace
 		{
 			if(!$oDocument->isGranted())
 			{
-				return new Object(-1,'msg_not_permitted');
+				return new BaseObject(-1,'msg_not_permitted');
 			}
 
 			if(!$this->grant->manager)
@@ -295,12 +295,12 @@ class marketplaceController extends marketplace
 		// check grant
 		if($this->module_info->module != "marketplace")
 		{
-			return new Object(-1, "msg_invalid_request");
+			return new BaseObject(-1, "msg_invalid_request");
 		}
 
 		if(!$this->grant->write_document)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		$document_srl = Context::get('document_srl');
 
@@ -337,18 +337,18 @@ class marketplaceController extends marketplace
 		// check grant
 		if($this->module_info->module != "marketplace")
 		{
-			return new Object(-1, "msg_invalid_request");
+			return new BaseObject(-1, "msg_invalid_request");
 		}
 
 		// 상품 수정 기능 옵션 체크
 		if(!$this->module_info->item_modify || $this->module_info->item_modify =='N')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		if(!$this->grant->write_document)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		$logged_info = Context::get('logged_info');
 		$document_srl = (int)Context::get('document_srl');
@@ -469,7 +469,7 @@ class marketplaceController extends marketplace
 		// 관리자가 아니면 삭제할 수 없음
 		if($this->grant->manager==false)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$oDocumentModel = &getModel('document');
@@ -503,7 +503,7 @@ class marketplaceController extends marketplace
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		$logged_info = Context::get('logged_info');
 
@@ -532,7 +532,7 @@ class marketplaceController extends marketplace
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
-			return new Object(-1,'msg_not_founded');
+			return new BaseObject(-1,'msg_not_founded');
 		}
 
 		// generate comment  module model object
@@ -560,7 +560,7 @@ class marketplaceController extends marketplace
 				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl)
 				{
-					return new Object(-1, 'msg_invalid_request');
+					return new BaseObject(-1, 'msg_invalid_request');
 				}
 
 				$output = $oCommentController->insertComment($obj);
@@ -574,7 +574,7 @@ class marketplaceController extends marketplace
 			// check the grant
 			if(!$comment->isGranted())
 			{
-				return new Object(-1,'msg_not_permitted');
+				return new BaseObject(-1,'msg_not_permitted');
 			}
 
 			$obj->parent_srl = $comment->parent_srl;
@@ -648,13 +648,13 @@ class marketplaceController extends marketplace
 			$oComment = $oCommentModel->getComment($comment_srl);
 			if(!$oComment->isExists())
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 
 			// compare the comment password and the user input password
 			if(!$oMemberModel->isValidPassword($oComment->get('password'),$password))
 			{
-				return new Object(-1, 'msg_invalid_password');
+				return new BaseObject(-1, 'msg_invalid_password');
 			}
 
 			$oComment->setGrant();
@@ -664,13 +664,13 @@ class marketplaceController extends marketplace
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists())
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 
 			// compare the document password and the user input password
 			if(!$oMemberModel->isValidPassword($oDocument->get('password'),$password))
 			{
-				return new Object(-1, 'msg_invalid_password');
+				return new BaseObject(-1, 'msg_invalid_password');
 			}
 
 			$oDocument->setGrant();
@@ -685,12 +685,12 @@ class marketplaceController extends marketplace
 		$type = Context::get('type');
 
 		// Check login information
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_invalid_request');
 		$logged_info = Context::get('logged_info');
 
 		// Check document information
 		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+		if(!$document_srl) return new BaseObject(-1,'msg_invalid_request');
 
 		// Get Document Item
 		$oMarketplaceModel = getModel('marketplace');
@@ -698,7 +698,7 @@ class marketplaceController extends marketplace
 	
 		if(!$oMarketItem->isGranted())
 		{
-			return new Object(-1,'msg_not_permitted');
+			return new BaseObject(-1,'msg_not_permitted');
 		}
 
 		$args->document_srl = $document_srl;
@@ -724,32 +724,32 @@ class marketplaceController extends marketplace
 		$oMarketplaceModel = getModel('marketplace');
 
 		// Check login information
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_invalid_request');
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = Context::get('document_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+		if(!$document_srl) return new BaseObject(-1,'msg_invalid_request');
 
 		$balance = Context::get('balance');
 		$bid_price = Context::get('bid_price');
-		if($bid_price > $balance) return new Object(-1,'입찰가는 최대 광고료보다 클 수 없습니다.');
+		if($bid_price > $balance) return new BaseObject(-1,'입찰가는 최대 광고료보다 클 수 없습니다.');
 
 		if($bid_price < $this->module_info->minimum_bid_price)
-			return new Object(-1,'입찰가는 최저 입찰 금액보다 같거나 높게 설정하셔야 합니다.');
+			return new BaseObject(-1,'입찰가는 최저 입찰 금액보다 같거나 높게 설정하셔야 합니다.');
 
 		$oPointModel = getModel('point');
 		$member_point = $oPointModel->getPoint($logged_info->member_srl);
 
 		if($member_point < $bid_price || $member_point < $balance)
 		{
-			return new Object(-1,'포인트가 부족하여 광고를 등록하실 수 없습니다.');
+			return new BaseObject(-1,'포인트가 부족하여 광고를 등록하실 수 없습니다.');
 		}
 
 		// 같은 입찰가의 광고가 진행중인지 체크
 		$output = $oMarketplaceModel->getAdvertiseByBidPrice($bid_price, $this->module_srl);
 		if($output->data && $output->data->document_srl != $document_srl) 
 		{
-			return new Object(-1,'해당 입찰가는 이미 등록되어있습니다.');
+			return new BaseObject(-1,'해당 입찰가는 이미 등록되어있습니다.');
 		}
 	
 		$args = new stdClass();
@@ -780,7 +780,7 @@ class marketplaceController extends marketplace
 	function procMarketplaceDeleteAdvertise()
 	{
 		$document_srl = Context::get('document_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+		if(!$document_srl) return new BaseObject(-1,'msg_invalid_request');
 
 		$this->deleteAdvertise($document_srl);
 		$this->setMessage('success_advertise_stopped');
@@ -895,20 +895,20 @@ class marketplaceController extends marketplace
 	function procMarketplaceReinsertDocument()
 	{
 		$document_srl = Context::get('document_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+		if(!$document_srl) return new BaseObject(-1,'msg_invalid_request');
 		
 		// 재등록 기능 사용여부 체크
-		if(!$this->module_info->use_reinsert) return new Object(-1,'msg_invalid_request');
+		if(!$this->module_info->use_reinsert) return new BaseObject(-1,'msg_invalid_request');
 
 		// Get Marketplace Item
 		$oMarketplaceModel = getModel('marketplace');
 		$oMarketItem = $oMarketplaceModel->getMarketplaceItem($document_srl);
 	
 		// 권한 체크
-		if(!$oMarketItem->isGranted()) return new Object(-1,'msg_not_permitted');
+		if(!$oMarketItem->isGranted()) return new BaseObject(-1,'msg_not_permitted');
 		
 		// 판매중인 상품이 아니라면 return
-		if(!$oMarketItem->isSelling()) return new Object(-1,'msg_invalid_request');
+		if(!$oMarketItem->isSelling()) return new BaseObject(-1,'msg_invalid_request');
 
 		// set defualt interval if no setting
 		$interval = ($this->module_info->reinsert_interval)? $this->module_info->reinsert_interval : 5;
@@ -944,7 +944,7 @@ class marketplaceController extends marketplace
 	 **/
 	function procMarketplaceInsertKeyword()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return new BaseObject(-1,'msg_not_permitted');
 
 		$logged_info = Context::get('logged_info');
 		$keyword = Context::get('keyword');
@@ -953,7 +953,7 @@ class marketplaceController extends marketplace
 		// get member keywords
 		$oMarketplaceModel = getModel('marketplace');
 		$output = $oMarketplaceModel->getKeywordsByMemberSrl($logged_info->member_srl, $this->module_srl);
-		if(!$output->toBool()) return new Object(-1, $output->message);
+		if(!$output->toBool()) return new BaseObject(-1, $output->message);
 
 		// limit keyword insert
 		$limit_count = $this->module_info->limit_keyword_count;
@@ -964,7 +964,7 @@ class marketplaceController extends marketplace
 		{
 			// check exist
 			$output = $oMarketplaceModel->getKeywordByMemberSrl($keyword, $logged_info->member_srl, $this->module_srl);
-			if($output->data) return new Object(-1,'msg_already_exist_keyword');
+			if($output->data) return new BaseObject(-1,'msg_already_exist_keyword');
 
 			// DB insert
 			$args = new stdClass();
@@ -972,7 +972,7 @@ class marketplaceController extends marketplace
 			$args->member_srl = $logged_info->member_srl;
 			$args->keyword = $keyword;
 			$output = executeQuery('marketplace.insertKeywordMember', $args);
-			if(!$output->toBool()) return new Object(-1, $output->message);
+			if(!$output->toBool()) return new BaseObject(-1, $output->message);
 
 			$oCacheHandler = CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport())
@@ -997,7 +997,7 @@ class marketplaceController extends marketplace
 
 	function procMarketplaceDeleteKeyword()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return new BaseObject(-1,'msg_not_permitted');
 
 		$logged_info = Context::get('logged_info');
 		$keyword = Context::get('keyword');
@@ -1030,7 +1030,7 @@ class marketplaceController extends marketplace
 		// marketplace 모듈 문서인지 체크
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($obj->module_srl, array('module'));
-		if($module_info->module != 'marketplace') return new Object();
+		if($module_info->module != 'marketplace') return new BaseObject();
 
 		// get marketplace item
 		$args->document_srl = $obj->document_srl;
@@ -1060,7 +1060,7 @@ class marketplaceController extends marketplace
 		// delete cache
 		$this->removeItemCache($obj->document_srl);
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	function procMarketplaceToggleWishlist()
@@ -1071,7 +1071,7 @@ class marketplaceController extends marketplace
 			return false;
 		}
 		$document_srl = Context::get('document_srl');
-		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$document_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		// get wishlist
 		$args->document_srl = $document_srl;
@@ -1104,7 +1104,7 @@ class marketplaceController extends marketplace
 
 	function deleteItemCondition($module_srl, $eid = null)
 	{
-		if(!$module_srl) return new Object(-1,'msg_invalid_request');
+		if(!$module_srl) return new BaseObject(-1,'msg_invalid_request');
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		if(!is_null($eid)) 
@@ -1136,7 +1136,7 @@ class marketplaceController extends marketplace
 		}
 		$oDB->commit();
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	function insertSettingCondition($obj)

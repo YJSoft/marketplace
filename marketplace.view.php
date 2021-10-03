@@ -1036,7 +1036,7 @@ class marketplaceView extends marketplace
 
 		// check using this function
 		if(!$this->module_info->use_keyword_notify)
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 
 		$member_srl = $logged_info->member_srl;
 
@@ -1197,7 +1197,7 @@ class marketplaceView extends marketplace
 		// if the parent comment is not existed
 		if(!$parent_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// get the comment
@@ -1258,7 +1258,7 @@ class marketplaceView extends marketplace
 		// if the comment is not existed
 		if(!$comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// get comment information
@@ -1389,7 +1389,7 @@ class marketplaceView extends marketplace
 		$oMarketItem = $oMarketplaceModel->getMarketplaceItem($document_srl);
 		if(!$oMarketItem->isSelling()) {
 			$this->setBlankLayout();
-			return new Object(-1,'msg_invalid_request');
+			return new BaseObject(-1,'msg_invalid_request');
 		}
 
 		// check grant
@@ -1424,7 +1424,7 @@ class marketplaceView extends marketplace
 		// 상품 수정 기능 옵션 체크
 		if(!$this->module_info->item_modify || $this->module_info->item_modify =='N')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		/**
